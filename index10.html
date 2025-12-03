@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css" />
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jshint/2.13.6/jshint.min.js"></script>
+
+    <!-- <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script> -->
+    
+    <script src="https://unpkg.com/@uiw/react-codemirror@4/umd/index.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/foldgutter.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/lint.min.css" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/selection/active-line.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/selection/active-line.min.js"></script>
+
+    <link  href="styles10.css" rel="stylesheet">
+    <title>ТренажерКА</title>
+    <link rel="icon" href="1.jpg" type="image/jpeg">
+    <!-- ДЛЯ АВТОРИЗАЦИИ -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script> -->
+
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a class="tablink active" href="#HTML/CSS" onclick="openTab(event, 'htmlTab')">HTML/CSS</a></li>
+            <li><a class="tablink" href="#JavaScript" onclick="openTab(event, 'jsTab')">JavaScript</a></li>
+            <li><a class="tablink" href="#Bootstrap" onclick="openTab(event, 'bootTab')">Bootstrap</a></li>
+            <li><a class="tablink" href="#jQuery" onclick="openTab(event, 'jquTab')">jQuery</a></li>
+            <!-- <li><a class="tablink" href="#vue" onclick="openTab(event, 'vueTab')">Vue.js</a></li> -->
+        </ul>
+    </div>
+
+     <!-- регистрация -->
+    <div class="container">
+         <!-- <div class="auth-forms" id="authForms">
+            <div class="form-container" id="registerForm">
+                <h2>Регистрация</h2>
+                <form onsubmit="event.preventDefault(); register();">
+                   <input type="text" id="registerUsername" placeholder="Имя пользователя" required>
+                    <input type="email" id="registerEmail" placeholder="Email" required>
+                    <input type="password" id="registerPassword" placeholder="Пароль" required>
+                    <button type="submit" onclick="register()">Зарегистрироваться</button> 
+                </form>
+                
+                <p>Уже есть аккаунт? <a href="#" onclick="showLogin()">Войти</a></p>
+            </div>
+            <div class="form-container" id="loginForm" style="display: none;">
+                <h2>Вход</h2>
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Пароль" required>
+                <button type="submit" onclick="login()">Войти</button>
+                <p>Нет аккаунта? <a href="#" onclick="showRegister()">Зарегистрироваться</a></p>
+            </div>
+        </div> -->
+
+        <!-- <div class="editor-container"> -->
+        <!-- <div class="editor-container" id="editorContainer" style="display: none;"> -->
+        <div id="editor-container">
+            <!-- <div class="editor-container"></div> -->
+            <div class="code-editors">
+                <div id="htmlTab" class="tabcontent active">
+                    <nav class="navZapusk">
+                        <button id="run">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                             <path d="M8 5v14l11-7L8 5z" fill="currentColor"/>
+                            </svg>
+                        </button>   
+                    </nav>
+                    <!-- Вкладки для теории, заданий и кода -->
+                    <div class="lesson-tabs">
+                        <button class="lesson-tab-btn active" data-lesson-tab="theoryTab">Теория</button>
+                        <button class="lesson-tab-btn" data-lesson-tab="tasksTab">Задания</button>
+                        <button class="lesson-tab-btn" data-lesson-tab="codeTab">Код</button>
+                    </div>
+
+                    <!-- Контент вкладок урока -->
+                    <div class="lesson-contents">
+                        <div id="theoryTab" class="lesson-content active">
+                            <div class="theory-block">
+                               
+                                <p>Загрузка теории...</p> 
+                            </div>
+                        </div>
+                        <div id="tasksTab" class="lesson-content">
+                            <div class="tasks-block">
+                                <!-- Контент заданий будет загружен из JSON -->
+                                <p>Загрузка заданий...</p> <!-- Плейсхолдер -->
+                            </div>
+                        </div>
+                        <div id="codeTab" class="lesson-content">
+                            <div class="tab-buttons">
+                                <button class="tab-btn active" data-tab="htmlTab1">HTML</button>
+                                <button class="tab-btn" data-tab="cssTab">CSS</button>
+                                <button class="tab-btn" data-tab="jsTab1">JS</button>
+                            </div>
+                            <div class="tab-contents">
+                                <div id="htmlTab1" class="tabcontent1 active">
+                                <textarea id="htmlCode" placeholder="Введите HTML код..."></textarea>
+                                </div>
+                                <div id="cssTab" class="tabcontent1">
+                                <textarea id="cssCode" placeholder="Введите CSS код..."></textarea>
+                                </div>
+                                <div id="jsTab1" class="tabcontent1">
+                                <textarea id="jsCode2" placeholder="Введите JS код..."></textarea>
+                                </div>
+                            </div>
+                        
+                            <div id="errorOutput"></div>
+                            <button class="clear-btn" onclick="clearCode('html')">Очистить</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="jsTab" class="tabcontent">
+                    <nav class="navZapusk">
+                        <button id="runButton">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                             <path d="M8 5v14l11-7L8 5z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                    </nav>
+                    <!-- Вкладки для теории, заданий и кода -->
+                    <div class="lesson-tabs">
+                        <button class="lesson-tab-btn active" data-lesson-tab="jsTheoryTab">Теория</button>
+                        <button class="lesson-tab-btn" data-lesson-tab="jsTasksTab">Задания</button>
+                        <button class="lesson-tab-btn" data-lesson-tab="jsCodeTab">Код</button>
+                    </div>
+
+                    <!-- Контент вкладок урока -->
+                    <div class="lesson-contents">
+                        <div id="jsTheoryTab" class="lesson-content active">
+                            <div class="theory-block">
+                                
+                                <p>Загрузка теории...</p> 
+                            </div>
+                        </div>
+                        <div id="jsTasksTab" class="lesson-content">
+                            <div class="tasks-block">
+                                
+                                <p>Загрузка заданий...</p> 
+                            </div>
+                        </div>
+                        <div id="jsCodeTab" class="lesson-content">
+                            <textarea id="jsCode" placeholder="Введите JavaScript код..."></textarea>
+                            <div id="jsErrorOutput"></div>
+                            <button class="clear-btn" onclick="clearCode('js')">Очистить</button>
+                        </div>
+                    </div>
+                    
+
+                </div>
+
+                <div id="bootTab" class="tabcontent">
+                    <nav class="navZapusk">
+                        <button id="showResultBtn">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                             <path d="M8 5v14l11-7L8 5z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                    </nav>
+                    <!-- Вкладки для теории, заданий и кода -->
+                    <div class="lesson-tabs">
+                        <button class="lesson-tab-btn active" data-lesson-tab="bootTheoryTab">Теория</button>
+                        <button class="lesson-tab-btn" data-lesson-tab="bootTasksTab">Задания</button>
+                        <button class="lesson-tab-btn" data-lesson-tab="bootCodeTab">Код</button>
+                    </div>
+                    <div class="lesson-contents">
+                        <div id="bootTheoryTab" class="lesson-content active">
+                            <div class="theory-block"> 
+                                <p>Загрузка теории...</p> 
+                            </div>
+                        </div>
+
+                        <div id="bootTasksTab" class="lesson-content">
+                            <div class="tasks-block">
+                                <!-- Контент заданий будет загружен из JSON -->
+                                <p>Загрузка заданий...</p> <!-- Плейсхолдер -->
+                            </div>
+                        </div>
+                        <div id="bootCodeTab" class="lesson-content">
+                            <div class="tab-buttons">
+                                <button class="tab-btn1 active" data-tab="htmlTab2">HTML/Bootstrap</button>
+                                <button class="tab-btn1" data-tab="cssTab1">CSS/Bootstrap</button>
+                                <button class="tab-btn1" data-tab="jsTab2">JS/Bootstrap</button>
+                            </div>
+                            <div class="tab-contents">
+                                <div id="htmlTab2" class="tabcontent2 active">
+                                    <textarea id="htmlCode1" placeholder="Введите HTML код..."></textarea>
+                                </div>
+                                <div id="cssTab1" class="tabcontent2">
+                                    <textarea id="cssCode1" placeholder="Введите CSS код..."></textarea>
+                                </div>
+                                <div id="jsTab2" class="tabcontent2">
+                                    <textarea id="jsCode1" placeholder="Введите JS код..."></textarea>
+                                </div>
+                            </div>
+                            <button class="clear-btn" onclick="clearCode('bootstrap')">Очистить</button>
+                        </div>
+                            
+                    </div>
+                    
+                </div>
+
+                <div id="jquTab" class="tabcontent">
+                    <nav class="navZapusk">
+                        <button id="runjQButton">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                             <path d="M8 5v14l11-7L8 5z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                    </nav>
+                    
+                    <div class="lesson-tabs">
+                        <button class="lesson-tab-btn active" data-lesson-tab="jqTheoryTab">Теория</button>
+                        <button class="lesson-tab-btn" data-lesson-tab="jqTasksTab">Задания</button>
+                        <button class="lesson-tab-btn" data-lesson-tab="jqCodeTab">Код</button>
+                    </div>
+                    
+                    <div class="lesson-contents">
+                        <div id="jqTheoryTab" class="lesson-content active">
+                            <div class="theory-block">
+                                
+                                <p>Загрузка теории...</p> 
+                            </div>
+                        </div>
+                        <div id="jqTasksTab" class="lesson-content">
+                            <div class="tasks-block">
+                                
+                                <p>Загрузка заданий...</p> 
+                            </div>
+                        </div>
+                        <div id="jqCodeTab" class="lesson-content">
+                            <textarea id="jquCode" placeholder="Введите код..."></textarea>
+                            <div id="jqErrorOutput"></div> 
+                            <button class="clear-btn" onclick="clearCode('jquery')">Очистить</button>
+                        </div>
+                    </div>   
+                </div>
+
+
+                <!-- <div id="vueTab" class="tabcontent">
+                    <nav class="navZapusk">
+                        <button id="runVueButton">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                             <path d="M8 5v14l11-7L8 5z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                    </nav>
+                    <h2>Vue.js</h2>
+                    <textarea id="vueCode" placeholder="Введите код..."></textarea>
+                    <h2>JSON</h2>
+                    <textarea id="JSONCode" placeholder="Введите код..."></textarea>
+                </div> -->
+
+
+                <!-- <div class="buttons">
+                    <button id="clear">Очистить</button>
+                    <button id="showResultBtn" style="display: none;">Показать результат</button> 
+                </div>  -->
+
+            </div>
+            <div class="result">
+                <h2>Результат</h2>
+                    <!-- <button onclick="zoomIn()">+</button>
+                    <button onclick="zoomOut()">−</button> -->
+                    <iframe id="output"></iframe>
+                      <div class="zoom-controls">
+                        <button onclick="zoomOut()" title="Уменьшить шрифт">−</button>
+                        <button onclick="zoomIn()" title="Увеличить шрифт">+</button>
+                    </div>
+            </div>
+
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script> -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/htmlmixed/htmlmixed.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/xml/xml.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/css/css.min.js"></script>
+
+            <!-- Addons для улучшений -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/closetag.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/matchbrackets.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/foldgutter.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/brace-fold.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/lint.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/javascript-lint.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/css-lint.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/html-lint.min.js"></script>
+    
+            <!-- Emmet для snippets и табуляции -->
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/emmet/2.4.1/emmet.min.js"></script>
+            <script src="https://rawgit.com/sebastiandedeyne/codemirror-emmet/master/codemirror-emmet.min.js"></script> -->
+        </div>
+
+        
+    </div>
+    
+    <!-- iframe для безопасного выполнения кода -->
+    <iframe id="sandbox" sandbox="allow-scripts" src="sandbox3.html"></iframe>
+    <!-- ДЛЯ АВТОРИЗАЦИИ -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script> -->
+   
+    <script src="https://cdn.jsdelivr.net/npm/css-tree@1.1.2/dist/csstree.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/esprima@4.0.1/dist/esprima.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/esprima/4.0.1/esprima.min.js"></script> 
+    <script src="script10.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

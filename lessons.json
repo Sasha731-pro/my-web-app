@@ -1,0 +1,188 @@
+{
+    "html": {
+        "theory": {
+            "type": "topics",
+            "file": "text-html.html",
+            "topics": [
+                {
+                    "title": "Тема 1: ",
+                    "id": "intro"
+                },
+                {
+                    "title": "Тема 2:",
+                    "id": "variables"
+                },
+                {
+                    "title": "Тема 3:",
+                    "id": "functions"
+                }
+            ]
+        },
+        "tasks": {
+            "type": "topics",
+            "file": "pz-html.html",
+            "topics": [
+                {
+                    "title": "Практическая работа 1",
+                    "id": "pz1"
+                },
+                {
+                    "title": "Практическая работа 2",
+                    "id": "pz2"
+                },
+                {
+                    "title": "Практическая работа 3",
+                    "id": "pz3"
+                }
+            ]  
+        }
+    },
+    "js": {
+        "theory": {
+            "type": "topics",
+            "file": "text-js.html",
+            "topics": [
+                {
+                    "title": "Практическая работа 1: Тип данных массив и его использование в JavaScript",
+                    "id": "intro"
+                },
+                {
+                    "title": "Практическая работа 2: Функции языка JavaScript",
+                    "id": "functions"
+                },
+                {
+                    "title": "Практическая работа 3: Объекты языка JavaScript",
+                    "id": "object"
+                },
+                {
+                    "title": "Практическая работа 4: Работа с функциями, строками, массивами в JS",
+                    "id": "povt"
+                },
+                {
+                    "title": "Практическая работа 5: Работа с классами и объектами в JS",
+                    "id": "povt"
+                }
+            ]
+        },
+        "tasks": {
+            "type": "topics",
+            "file": "pz-js.html",
+            "topics": [
+                {
+                    "title": "Практическая работа 1",
+                    "id": "pz1"
+                },
+                {
+                    "title": "Практическая работа 2",
+                    "id": "pz2"
+                },
+                {
+                    "title": "Практическая работа 3",
+                    "id": "pz3"
+                },
+                {
+                    "title": "Практическая работа 4",
+                    "id": "pz4"
+                },
+                {
+                    "title": "Практическая работа 5",
+                    "id": "pz5"
+                }
+            ]  
+        }
+        
+    },
+    "boot": {
+        "theory": {
+            "type": "topics",
+            "file": "text-html.html",
+            "topics": [
+                {
+                    "title": "Тема 1: ",
+                    "id": "intro"
+                },
+                {
+                    "title": "Тема 2:",
+                    "id": "variables"
+                },
+                {
+                    "title": "Тема 3:",
+                    "id": "functions"
+                }
+            ]
+        },
+        "tasks": {
+            "type": "topics",
+            "file": "pz-html.html",
+            "topics": [
+                {
+                    "title": "Практическая работа 1",
+                    "id": "pz1"
+                },
+                {
+                    "title": "Практическая работа 2",
+                    "id": "pz2"
+                },
+                {
+                    "title": "Практическая работа 3",
+                    "id": "pz3"
+                }
+            ]  
+        }
+    },
+    "jqu": {
+        "theory": {
+            "type": "topics",
+            "file": "text-js.html",
+            "topics": [
+                {
+                    "title": "Практическая работа 1: Тип данных массив и его использование в JavaScript",
+                    "id": "intro"
+                },
+                {
+                    "title": "Практическая работа 2: Функции языка JavaScript",
+                    "id": "functions"
+                },
+                {
+                    "title": "Практическая работа 3: Объекты языка JavaScript",
+                    "id": "object"
+                },
+                {
+                    "title": "Практическая работа 4: Работа с функциями, строками, массивами в JS",
+                    "id": "povt"
+                },
+                {
+                    "title": "Практическая работа 5: Работа с классами и объектами в JS",
+                    "id": "povt"
+                }
+            ]
+        },
+        "tasks": {
+            "type": "topics",
+            "file": "pz-js.html",
+            "topics": [
+                {
+                    "title": "Практическая работа 1",
+                    "id": "pz1"
+                },
+                {
+                    "title": "Практическая работа 2",
+                    "id": "pz2"
+                },
+                {
+                    "title": "Практическая работа 3",
+                    "id": "pz3"
+                },
+                {
+                    "title": "Практическая работа 4",
+                    "id": "pz4"
+                },
+                {
+                    "title": "Практическая работа 5",
+                    "id": "pz5"
+                }
+            ]  
+        }
+        
+    }
+}

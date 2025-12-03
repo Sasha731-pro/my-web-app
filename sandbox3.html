@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Sandbox</title>
+    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
+</head>
+<body>
+    <script>
+        // sandbox.js (или ваш существующий файл)
+        // class AdvancedSandbox {
+        //     constructor() {
+        //         this.allowedAPIs = {
+        //             'Math.*': true,
+        //             'Date.*': true,
+        //             'Array.*': true,
+        //             'console.log': true,
+        //             'console.error': true
+        //         };
+                
+        //         this.maxExecutionTime = 3000;
+        //     }
+
+        //     validateCode(code) {
+        //         const forbiddenPatterns = [
+        //             /window\./,
+        //             /document\./,
+        //             /localStorage/,
+        //             /sessionStorage/,
+        //             /fetch/,
+        //             /XMLHttpRequest/,
+        //             /eval/,
+        //             /Function\(/,
+        //             /import\(/,
+        //             /require\(/
+        //         ];
+                
+        //         return !forbiddenPatterns.some(pattern => pattern.test(code));
+        //     }
+
+        //     async execute(code) {
+        //         if (!this.validateCode(code)) {
+        //             throw new Error('Code contains forbidden patterns');
+        //         }
+
+        //         return new Promise((resolve, reject) => {
+        //             const worker = this.createSafeWorker(code);
+        //             let timeoutId;
+
+        //             worker.onmessage = (e) => {
+        //                 clearTimeout(timeoutId);
+        //                 if (e.data.type === 'result') {
+        //                     resolve(e.data.message);
+        //                 } else if (e.data.type === 'error') {
+        //                     reject(new Error(e.data.message));
+        //                 }
+        //             };
+
+        //             timeoutId = setTimeout(() => {
+        //                 worker.terminate();
+        //                 reject(new Error('Execution timeout'));
+        //             }, this.maxExecutionTime);
+        //         });
+        //     }
+
+        //     createSafeWorker(code) {
+        //         const blob = new Blob([`
+        //             self.onmessage = function(e) {
+        //                 const code = e.data;
+        //                 // Переопределяем console.log для передачи вывода обратно
+        //                 console.log = function(...messages) {
+        //                     const message = messages.join(' ');
+        //                     postMessage({ type: 'result', message: message });
+        //                 };
+
+        //                 try {
+        //                     eval(code);
+        //                 } catch (error) {
+        //                     let lineNumber = parseLineFromStack(error);
+        //                     postMessage({ type: 'error', message: error.message, line: lineNumber });
+        //                 }
+        //             };
+
+        //             function parseLineFromStack(error) {
+        //                 if (!error.stack) return null;
+
+        //                 const stackLines = error.stack.split('\\n');
+        //                 for (const line of stackLines) {
+        //                     const match = line.match(/<anonymous>:(\\d+):\\d+/);
+        //                     if (match) {
+        //                         return parseInt(match[1], 10);
+        //                     }
+        //                 }
+        //                 return null;
+        //             }
+        //         `], { type: 'application/javascript' });
+
+        //         return new Worker(URL.createObjectURL(blob));
+        //     }
+        // }
+
+        // Использование класса AdvancedSandbox
+        // const sandbox = new AdvancedSandbox();
+
+        // window.addEventListener('message', async function(event) {
+        //     const code = event.data;
+
+        //     try {
+        //         const result = await sandbox.execute(code);
+        //         window.parent.postMessage({ type: 'result', message: result }, '*');
+        //     } catch (error) {
+        //         window.parent.postMessage({ type: 'error', message: error.message }, '*');
+        //     }
+        // });
+
+
+
+        // Переопределяем console.log, чтобы передавать вывод обратно в родительский документ
+        
+        // window.console.log = function(...messages) {
+        //     // Объединяем все аргументы в одну строку
+        //     const message = messages.join(' ');
+        //     window.parent.postMessage({ type: 'result', message: message }, '*');
+        // };
+        // Переопределение console.log
+        const originalLog = console.log;
+        console.log = function(...args) {
+            const message = args.join(' ');
+            window.parent.postMessage({ type: 'result', message }, '*');
+            originalLog.apply(console, args); // Опционально: логируем в консоль iframe
+        };
+
+
+
+        // Прослушиваем сообщения от родительского окна
+        window.addEventListener('message', function(event) {
+            const code = event.data;
+
+            // Оборачиваем код в try/catch, чтобы перехватить синтаксические и рантайм-ошибки
+            try {
+                // Добавляем sourceURL, чтобы стек содержал понятное имя файла
+                //eval(code);
+                const userFunction = new Function(code);
+                userFunction();
+            } catch (error) {
+                // Используем функцию parseLineFromStack для точного определения номера строки
+                let lineNumber = parseLineFromStack(error);
+        
+                if (error.stack) {
+                    const stackLines = error.stack.split('\n');
+                    
+                    // Ищем строку с userCode.js в стеке
+                    for (const line of stackLines) {
+                        const match = line.match(/userCode\.js:(\d+):(\d+)/);
+                        if (match) {
+                            lineNumber = parseInt(match[1], 10);
+                            break;
+                        }
+                        
+                        // Альтернативный формат для некоторых браузеров
+                        const match2 = line.match(/<anonymous>:(\d+):(\d+)/);
+                        if (match2) {
+                            lineNumber = parseInt(match2[1], 10);
+                            break;
+                        }
+                    }
+                }
+
+                window.parent.postMessage(
+                { type: 'error', 
+                message: error.message, 
+                line: lineNumber},
+                '*');
+            }
+           
+        });
+
+
+        function parseLineFromStack(error) {
+            if (!error.stack) return null;
+            
+            const stackLines = error.stack.split('\n');
+            
+            for (const line of stackLines) {
+                // Теперь всегда ищем userCode.js
+                const match = line.match(/userCode\.js:(\d+):\d+/);
+                if (match) {
+                    return parseInt(match[1], 10)-1;
+                }
+                 const match2 = line.match(/<anonymous>:(\d+):(\d+)/);
+        if (match2) {
+            //console.log("DEBUG - Found anonymous line:", match2[1]);
+            return parseInt(match2[1], 10);
+        }
+            }
+            
+            return null;
+        }
+    </script>
+</body>
+</html>
